@@ -1,0 +1,13 @@
+
+version: "3.8"
+
+include:
+  - services/deluge.yaml
+  - services/homepage.yaml
+  - services/kuma.yaml
+  - services/nginx.yaml
+  - services/pihole.yaml
+  - services/registry.yaml
+  - services/socket.yaml
+  - services/watchtower.yaml
+  - stacks/media.yaml

@@ -1,0 +1,17 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/compose-spec/compose-spec/master/schema/compose-spec.json
+services:
+  bazarr:
+    image: lscr.io/linuxserver/bazarr:latest
+    container_name: bazarr
+    restart: ${UNIVERSAL_RESTART_POLICY}
+    environment:
+      PUID: ${PUID}
+      PGID: ${PGID}
+      TZ: ${TZ}
+    volumes:
+      - bazarr-config:/config
+      - ${TV_DIR}:/tv
+      - ${MOVIE_DIR}:/movies
+
+volumes:
+  bazarr-config:

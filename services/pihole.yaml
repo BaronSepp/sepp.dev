@@ -1,0 +1,18 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/compose-spec/compose-spec/master/schema/compose-spec.json
+services:
+  pihole:
+    image: docker.io/pihole/pihole:2025.08.0
+    container_name: pihole
+    restart: ${UNIVERSAL_RESTART_POLICY}
+    ports:
+      - ${PHYSICAL_SERVER_IP}:53:53/tcp
+      - ${PHYSICAL_SERVER_IP}:53:53/udp
+    environment:
+      TZ: ${TZ}
+      FTLCONF_webserver_api_password: 'correct horse battery staple'
+      FTLCONF_dns_listeningMode: 'all'
+    volumes:
+      - pihole-data:/etc/pihole
+
+volumes:
+  pihole-data:

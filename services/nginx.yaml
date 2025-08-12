@@ -1,0 +1,17 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/compose-spec/compose-spec/master/schema/compose-spec.json
+services:
+  nginx:
+    image: docker.io/jc21/nginx-proxy-manager:latest
+    container_name: nginx
+    restart: ${UNIVERSAL_RESTART_POLICY}
+    ports:
+      - 80:80
+      - 443:443
+      - ${PHYSICAL_SERVER_IP}:81:81
+    volumes:
+      - nginx-data:/data
+      - letsencrypt-data:/etc/letsencrypt
+
+volumes:
+  nginx-data:
+  letsencrypt-data:

@@ -1,0 +1,29 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/compose-spec/compose-spec/master/schema/compose-spec.json
+services:
+  plex:
+    image: lscr.io/linuxserver/plex:latest
+    container_name: plex
+    restart: ${UNIVERSAL_RESTART_POLICY}
+    ports:
+      - ${PHYSICAL_SERVER_IP}:1900:1900/udp
+      - ${PHYSICAL_SERVER_IP}:5353:5353/udp
+      - ${PHYSICAL_SERVER_IP}:8324:8324
+      - ${PHYSICAL_SERVER_IP}:32410:32410/udp
+      - ${PHYSICAL_SERVER_IP}:32412:32412/udp
+      - ${PHYSICAL_SERVER_IP}:32413:32413/udp
+      - ${PHYSICAL_SERVER_IP}:32414:32414/udp
+      - ${PHYSICAL_SERVER_IP}:32469:32469
+    environment:
+      PUID: ${PUID}
+      PGID: ${PGID}
+      TZ: ${TZ}
+      VERSION: latest
+    volumes:
+      - plex-config:/config
+      - ${TV_DIR}:/tv:ro
+      - ${MOVIE_DIR}:/movies:ro
+    devices:
+      - /dev/dri:/dev/dri
+
+volumes:
+  plex-config:

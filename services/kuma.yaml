@@ -1,0 +1,11 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/compose-spec/compose-spec/master/schema/compose-spec.json
+services:
+  kuma:
+    image: docker.io/louislam/uptime-kuma:latest
+    container_name: kuma
+    restart: ${UNIVERSAL_RESTART_POLICY}
+    volumes:
+      - kuma-config:/app/data
+
+volumes:
+  kuma-config:

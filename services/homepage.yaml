@@ -1,0 +1,16 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/compose-spec/compose-spec/master/schema/compose-spec.json
+services:
+  homepage:
+    image: ghcr.io/gethomepage/homepage:latest
+    container_name: homepage
+    restart: ${UNIVERSAL_RESTART_POLICY}
+    environment:
+      HOMEPAGE_ALLOWED_HOSTS: sepp.dev
+      DOCKER_HOST: tcp://socket:2375
+      PUID: ${PUID}
+      PGID: ${PGID}
+    volumes:
+      - homepage-config:/app/config
+
+volumes:
+  homepage-config:
