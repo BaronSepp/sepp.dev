@@ -1,18 +1,22 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/compose-spec/compose-spec/master/schema/compose-spec.json
 services:
-  homepage:
-    image: ghcr.io/gethomepage/homepage:latest
-    container_name: homepage
+  wings:
+    image: ghcr.io/pterodactyl/wings:latest
     restart: ${UNIVERSAL_RESTART_POLICY}
     depends_on:
       - socket
+    ports:
+      - "8443:443"
+      - "2022:2022"
+    tty: true
     environment:
-      HOMEPAGE_ALLOWED_HOSTS: ${HOST}
       DOCKER_HOST: tcp://socket:2375
-      PUID: ${PUID}
-      PGID: ${PGID}
+      TZ: ${TZ}
+      WINGS_GID: ${PGID}
+      WINGS_UID: ${PUID}
+      WINGS_USERNAME: ${WINGS_USER}
     volumes:
-      - homepage-config:/app/config
+      - "wings-config:/etc/pterodactyl"
 
 volumes:
-  homepage-config:
+  wings-config:

@@ -12,7 +12,6 @@ services:
       WATCHTOWER_CLEANUP: "true"
       WATCHTOWER_INCLUDE_STOPPED: "true"
       WATCHTOWER_NO_STARTUP_MESSAGE: "false"
-      WATCHTOWER_REMOVE_VOLUMES: "true"
-      WATCHTOWER_SCHEDULE: 0 30 12 * * *
+      WATCHTOWER_SCHEDULE: 0 0 * * *
     security_opt:
       - no-new-privileges:true

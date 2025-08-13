@@ -8,8 +8,10 @@ services:
       - ${PHYSICAL_SERVER_IP}:53:53/tcp
       - ${PHYSICAL_SERVER_IP}:53:53/udp
     environment:
+      PIHOLE_UID: ${PUID}
+      PIHOLE_GID: ${PGID}
       TZ: ${TZ}
-      FTLCONF_webserver_api_password: 'correct horse battery staple'
+      FTLCONF_webserver_api_password: ${PIHOLE_PASS}
       FTLCONF_dns_listeningMode: 'all'
     volumes:
       - pihole-data:/etc/pihole
