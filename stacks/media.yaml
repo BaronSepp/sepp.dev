@@ -1,7 +1,0 @@
-# yaml-language-server: $schema=https://raw.githubusercontent.com/compose-spec/compose-spec/master/schema/compose-spec.json
-include:
-  - ../services/bazarr.yaml
-  - ../services/overseerr.yaml
-  - ../services/plex.yaml
-  - ../services/radarr.yaml
-  - ../services/sonarr.yaml

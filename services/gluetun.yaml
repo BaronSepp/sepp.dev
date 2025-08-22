@@ -1,0 +1,29 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/compose-spec/compose-spec/master/schema/compose-spec.json
+services:
+  gluetun:
+    cap_add:
+      - NET_ADMIN
+    container_name: gluetun
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    environment:
+      PGID: ${PGID}
+      PUID: ${PUID}
+      SERVER_CITIES: Brussels
+      TZ: ${TZ}
+      VPN_SERVICE_PROVIDER: mullvad
+      VPN_TYPE: wireguard
+      WIREGUARD_ADDRESSES: ${WIREGUARD_ADDRESSES}
+      WIREGUARD_PRIVATE_KEY: ${WIREGUARD_PRIVATE_KEY}
+    healthcheck:
+      interval: 20s
+      retries: 5
+      test: ping -c 1 www.google.com || exit 1
+      timeout: 10s
+    image: docker.io/qmcgaw/gluetun:v3
+    privileged: true
+    restart: ${UNIVERSAL_RESTART_POLICY}
+    sysctls:
+      - net.ipv6.conf.all.disable_ipv6=1
+    volumes:
+      - gluetun-data:/gluetun

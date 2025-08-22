@@ -1,17 +1,16 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/compose-spec/compose-spec/master/schema/compose-spec.json
 services:
   bazarr:
-    image: lscr.io/linuxserver/bazarr:latest
     container_name: bazarr
-    restart: ${UNIVERSAL_RESTART_POLICY}
     environment:
-      PUID: ${PUID}
       PGID: ${PGID}
+      PUID: ${PUID}
       TZ: ${TZ}
+    image: lscr.io/linuxserver/bazarr:latest
+    ports:
+      - ${LOCAL_SERVER_IP}:6767:6767 # WebUI
+    restart: ${UNIVERSAL_RESTART_POLICY}
     volumes:
-      - bazarr-config:/config
-      - ${TV_DIR}:/tv
       - ${MOVIE_DIR}:/movies
-
-volumes:
-  bazarr-config:
+      - ${TV_DIR}:/tv
+      - bazarr-config:/config

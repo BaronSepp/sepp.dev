@@ -1,17 +1,16 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/compose-spec/compose-spec/master/schema/compose-spec.json
 services:
   sonarr:
-    image: lscr.io/linuxserver/sonarr:latest
     container_name: sonarr
-    restart: ${UNIVERSAL_RESTART_POLICY}
     environment:
-      PUID: ${PUID}
       PGID: ${PGID}
+      PUID: ${PUID}
       TZ: ${TZ}
+    image: lscr.io/linuxserver/sonarr:latest
+    ports:
+      - ${LOCAL_SERVER_IP}:8989:8989 # WebUI
+    restart: ${UNIVERSAL_RESTART_POLICY}
     volumes:
-      - sonarr-config:/config
-      - ${TV_DIR}:/tv
       - ${COMPLETED_DOWNLOADS}:/downloads
-
-volumes:
-  sonarr-config:
+      - ${TV_DIR}:/tv
+      - sonarr-config:/config

@@ -1,0 +1,20 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/compose-spec/compose-spec/master/schema/compose-spec.json
+services:
+  unifi:
+    container_name: unifi
+    restart: ${UNIVERSAL_RESTART_POLICY}
+    environment:
+      PUID: ${PUID}
+      PGID: ${PGID}
+      TZ: ${TZ}
+    image: lscr.io/linuxserver/unifi-network-application:latest
+    ports:
+      - ${LOCAL_SERVER_IP}:10001:10001/udp # AP Discovery
+      - ${LOCAL_SERVER_IP}:1900:1900/udp # L2 Network Discovery
+      - ${LOCAL_SERVER_IP}:3478:3478/udp # STUN
+      - ${LOCAL_SERVER_IP}:5514:5514/udp # Remote syslog
+      - ${LOCAL_SERVER_IP}:6789:6789/tcp # Mobile Throughput Test
+      - ${LOCAL_SERVER_IP}:8080:8080/tcp # Device Communication
+      - ${LOCAL_SERVER_IP}:8443:8443/tcp # Admin Portal
+      - ${LOCAL_SERVER_IP}:8843:8843/tcp # Guest Portal HTTPS
+      - ${LOCAL_SERVER_IP}:8880:8880/tcp # Guest Portal HTTP

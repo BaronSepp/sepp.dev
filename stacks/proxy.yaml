@@ -1,0 +1,32 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/compose-spec/compose-spec/master/schema/compose-spec.json
+x-common-networks: &networks
+  proxy:
+  servarr:
+  unifi:
+  miscellaneous:
+
+services:
+  nginx:
+    extends:
+      file: ../services/nginx.yaml
+      service: nginx
+    networks:
+      <<: *networks
+
+  socket:
+    extends:
+      file: ../services/socket.yaml
+      service: socket
+    networks:
+      <<: *networks
+
+volumes:
+  nginx-data:
+  letsencrypt-data:
+
+networks:
+  proxy:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.16.0.0/28

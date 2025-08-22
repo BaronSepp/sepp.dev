@@ -1,15 +1,14 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/compose-spec/compose-spec/master/schema/compose-spec.json
 services:
   overseerr:
-    image: lscr.io/linuxserver/overseerr:latest
     container_name: overseerr
-    restart: ${UNIVERSAL_RESTART_POLICY}
     environment:
-      PUID: ${PUID}
       PGID: ${PGID}
+      PUID: ${PUID}
       TZ: ${TZ}
+    image: lscr.io/linuxserver/overseerr:latest
+    restart: ${UNIVERSAL_RESTART_POLICY}
+    ports:
+      - ${LOCAL_SERVER_IP}:5055:5055 # WebUI
     volumes:
       - overseerr-config:/config
-
-volumes:
-  overseerr-config:

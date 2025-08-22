@@ -4,6 +4,8 @@ services:
     image: docker.io/containrrr/watchtower
     container_name: watchtower
     restart: always
+    networks:
+      miscellaneous:
     depends_on:
       - socket
     environment:

@@ -1,0 +1,24 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/compose-spec/compose-spec/master/schema/compose-spec.json
+services:
+  glance:
+    container_name: glance
+    depends_on:
+      - socket
+    environment:
+      DOCKER_HOST: tcp://socket:2375
+      PGID: ${PGID}
+      PUID: ${PUID}
+    image: docker.io/glanceapp/glance:latest
+    links:
+      - socket
+    networks:
+      miscellaneous:
+    ports:
+      - ${LOCAL_SERVER_IP}:8081:8080 # WebUI
+    restart: ${UNIVERSAL_RESTART_POLICY}
+    volumes:
+      - ./config/glance.yaml:/app/config/glance.yml:z
+      - /etc/localtime:/etc/localtime:ro
+
+volumes:
+  glance-config:

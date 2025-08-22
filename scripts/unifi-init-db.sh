@@ -6,15 +6,15 @@ else
   mongo_init_bin='mongo'
 fi
 "${mongo_init_bin}" <<EOF
-use ${MONGO_AUTHSOURCE}
+use admin
 db.auth("${MONGO_INITDB_ROOT_USERNAME}", "${MONGO_INITDB_ROOT_PASSWORD}")
 db.createUser({
-  user: "${MONGO_USER}",
+  user: "unifi",
   pwd: "${MONGO_PASS}",
   roles: [
-    { db: "${MONGO_DBNAME}", role: "dbOwner" },
-    { db: "${MONGO_DBNAME}_stat", role: "dbOwner" },
-    { db: "${MONGO_DBNAME}_audit", role: "dbOwner" }
+    { db: "unifi", role: "dbOwner" },
+    { db: "unifi_stat", role: "dbOwner" },
+    { db: "unifi_audit", role: "dbOwner" }
   ]
 })
 EOF

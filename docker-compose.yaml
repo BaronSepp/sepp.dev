@@ -1,13 +1,17 @@
-version: "3.8"
+# yaml-language-server: $schema=https://raw.githubusercontent.com/compose-spec/compose-spec/master/schema/compose-spec.json
+name: "homelab"
 
 include:
-  - services/deluge.yaml
-  - services/homepage.yaml
-  - services/kuma.yaml
-  - services/nginx.yaml
+  - services/glance.yaml
   - services/pihole.yaml
-  - services/registry.yaml
-  - services/socket.yaml
   - services/watchtower.yaml
-  - stacks/media.yaml
+  - stacks/proxy.yaml
+  - stacks/servarr.yaml
   - stacks/unifi.yaml
+
+networks:
+  miscellaneous:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.16.0.48/28

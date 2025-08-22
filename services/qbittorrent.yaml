@@ -1,16 +1,13 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/compose-spec/compose-spec/master/schema/compose-spec.json
 services:
-  deluge:
-    image: lscr.io/linuxserver/deluge:latest
-    container_name: deluge
-    restart: ${UNIVERSAL_RESTART_POLICY}
+  qbittorrent:
+    container_name: qbittorrent
     environment:
-      PUID: ${PUID}
       PGID: ${PGID}
+      PUID: ${PUID}
       TZ: ${TZ}
+    image: lscr.io/linuxserver/qbittorrent:latest
+    restart: ${UNIVERSAL_RESTART_POLICY}
     volumes:
-      - deluge-config:/config
       - ${COMPLETED_DOWNLOADS}:/downloads
-
-volumes:
-  deluge-config:
+      - qbittorrent-config:/config

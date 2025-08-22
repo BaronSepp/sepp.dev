@@ -1,17 +1,16 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/compose-spec/compose-spec/master/schema/compose-spec.json
 services:
   radarr:
-    image: lscr.io/linuxserver/radarr:latest
     container_name: radarr
-    restart: ${UNIVERSAL_RESTART_POLICY}
     environment:
-      PUID: ${PUID}
       PGID: ${PGID}
+      PUID: ${PUID}
       TZ: ${TZ}
+    image: lscr.io/linuxserver/radarr:latest
+    ports:
+      - ${LOCAL_SERVER_IP}:7878:7878 # WebUI
+    restart: ${UNIVERSAL_RESTART_POLICY}
     volumes:
-      - radarr-config:/config
-      - ${MOVIE_DIR}:/movies
       - ${COMPLETED_DOWNLOADS}:/downloads
-
-volumes:
-  radarr-config:
+      - ${MOVIE_DIR}:/movies
+      - radarr-config:/config

@@ -1,0 +1,78 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/compose-spec/compose-spec/master/schema/compose-spec.json
+x-common-networks: &networks
+  servarr:
+
+services:
+  bazarr:
+    extends:
+      file: ../services/bazarr.yaml
+      service: bazarr
+    networks:
+      <<: *networks
+
+  gluetun:
+    extends:
+      file: ../services/gluetun.yaml
+      service: gluetun
+    networks:
+      <<: *networks
+    ports:
+      - ${LOCAL_SERVER_IP}:51820:51820 # Mullvad
+      - ${LOCAL_SERVER_IP}:6881:6881 # qbittorrent P2P
+      - ${LOCAL_SERVER_IP}:6881:6881/udp # qbittorrent P2P
+      - ${LOCAL_SERVER_IP}:8083:8080 # qbittorrent WebUI
+
+  overseerr:
+    extends:
+      file: ../services/overseerr.yaml
+      service: overseerr
+    networks:
+      <<: *networks
+
+  plex:
+    extends:
+      file: ../services/plex.yaml
+      service: plex
+    networks:
+      <<: *networks
+
+  qbittorrent:
+    depends_on:
+      - gluetun
+    environment:
+      TORRENTING_PORT: 6881
+      WEBUI_PORT: 8082
+    extends:
+      file: ../services/qbittorrent.yaml
+      service: qbittorrent
+    network_mode: service:gluetun
+
+  radarr:
+    extends:
+      file: ../services/radarr.yaml
+      service: radarr
+    networks:
+      <<: *networks
+
+  sonarr:
+    extends:
+      file: ../services/sonarr.yaml
+      service: sonarr
+    networks:
+      <<: *networks
+
+volumes:
+  bazarr-config:
+  gluetun-data:
+  overseerr-config:
+  plex-config:
+  qbittorrent-config:
+  radarr-config:
+  sonarr-config:
+
+networks:
+  servarr:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.16.0.16/28

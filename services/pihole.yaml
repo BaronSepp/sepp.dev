@@ -1,18 +1,30 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/compose-spec/compose-spec/master/schema/compose-spec.json
 services:
   pihole:
-    image: docker.io/pihole/pihole:2025.08.0
+    cap_add:
+      - CHOWN
+      - NET_BIND_SERVICE
     container_name: pihole
-    restart: ${UNIVERSAL_RESTART_POLICY}
-    ports:
-      - ${PHYSICAL_SERVER_IP}:53:53/tcp
-      - ${PHYSICAL_SERVER_IP}:53:53/udp
     environment:
-      PIHOLE_UID: ${PUID}
-      PIHOLE_GID: ${PGID}
-      TZ: ${TZ}
-      FTLCONF_webserver_api_password: ${PIHOLE_PASS}
       FTLCONF_dns_listeningMode: 'all'
+      FTLCONF_misc_nice: 0
+      FTLCONF_ntp_ipv4_active: false
+      FTLCONF_ntp_ipv6_active: false
+      FTLCONF_ntp_sync_active: false
+      FTLCONF_resolver_resolveIPv6: false
+      FTLCONF_webserver_api_password: ${PIHOLE_PASS}
+      FTLCONF_webserver_port: 80
+      PIHOLE_GID: ${PGID}
+      PIHOLE_UID: ${PUID}
+      TZ: ${TZ}
+    image: docker.io/pihole/pihole:2025.08.0
+    networks:
+      miscellaneous:
+    ports:
+      - ${LOCAL_SERVER_IP}:53:53 # DNS
+      - ${LOCAL_SERVER_IP}:53:53/udp # DNS
+      - ${LOCAL_SERVER_IP}:8084:80 # WebUI
+    restart: ${UNIVERSAL_RESTART_POLICY}
     volumes:
       - pihole-data:/etc/pihole
 
